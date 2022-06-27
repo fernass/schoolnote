@@ -78,6 +78,15 @@ void noteBookBase::mouseMoveEvent(QMouseEvent* e)
     }
 }
 
+
+void noteBookBase::wheelEvent(QWheelEvent* e)
+{
+    if(e->angleDelta().y() > 0)
+        scale(zoomFactor, zoomFactor);
+    else if(e->angleDelta().y() < 0)
+        scale(1/zoomFactor, 1/zoomFactor);;
+}
+
 /*
 void noteBook::paintEvent(QPaintEvent* e)
 {

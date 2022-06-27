@@ -17,6 +17,7 @@ public slots:
     void mouseReleaseEvent(QMouseEvent* e);
     void mouseDoubleClickEvent(QMouseEvent* e);
     void mouseMoveEvent(QMouseEvent* e);
+    void wheelEvent(QWheelEvent* e);
 //    void paintEvent(QPaintEvent* e);
 
 private:
@@ -30,6 +31,7 @@ private:
     QPointF currentPos;
     QPointF clickPos;
     const float tolerance = 1E-3;
+    const float zoomFactor = 1.5;
 
     QList<QPointF> getControlPoints(float x0, float y0, float x1, float y1, float x2, float y2, float t);
 };
