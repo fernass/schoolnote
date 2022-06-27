@@ -87,6 +87,39 @@ void noteBookBase::wheelEvent(QWheelEvent* e)
         scale(1/zoomFactor, 1/zoomFactor);;
 }
 
+bool noteBookBase::viewportEvent(QEvent *event)
+{
+    switch (event->type()) {
+    case QEvent::TouchBegin:
+    case QEvent::TouchUpdate:
+    case QEvent::TouchEnd:
+    {
+        QTouchEvent *touchEvent = static_cast<QTouchEvent *>(event);
+        QList<QTouchEvent::TouchPoint> points = touchEvent->points();
+        if (points.count() == 2) {
+            // determine scale factor
+            const QTouchEvent::TouchPoint &touchPoint0 = points.first();
+            const QTouchEvent::TouchPoint &touchPoint1 = points.last();
+            qreal currentScaleFactor =
+                    QLineF(touchPoint0.position(), touchPoint1.position()).length()
+                    / QLineF(touchPoint0.pressPosition(), touchPoint1.pressPosition()).length();
+            if (touchEvent->touchPointStates() & Qt::TouchPointReleased) {
+                // if one of the fingers is released, remember the current scale
+                // factor so that adding another finger later will continue zooming
+                // by adding new scale factor to the existing remembered value.
+                totalScaleFactor *= currentScaleFactor;
+                currentScaleFactor = 1;
+            }
+            setTransform(QTransform::fromScale(totalScaleFactor * currentScaleFactor,
+                                               totalScaleFactor * currentScaleFactor));
+        }
+        return true;
+    }
+    default:
+        break;
+    }
+    return QGraphicsView::viewportEvent(event);
+}
 /*
 void noteBook::paintEvent(QPaintEvent* e)
 {
