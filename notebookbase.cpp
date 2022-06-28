@@ -7,13 +7,15 @@
 noteBookBase::noteBookBase(QWidget* parent) :
     QGraphicsView(parent)
 {
+    QSize viewSize = this->size();
     scene = new QGraphicsScene();
-    this->setSceneRect(0,0,2100,2970);
-    QPixmap pic("D:/Dokumente/OneDrive/Dokumente/Fernass/Programming/Qt/schoolNote/fcbayern.jpg");
+    scene->setSceneRect(0, 0, viewSize.rwidth(), viewSize.rwidth()*pageAspectRatio);
+    QPixmap pic(":/pics/fcbayern.jpg");
     QSize size(500, 500);
     QPixmap pic_scaled = pic.scaled(size,Qt::KeepAspectRatio);
     scene->addPixmap(pic_scaled);
     this->setScene(scene);
+//    this->fitInView(0, 0, viewSize.rwidth(), viewSize.rheight(), Qt::KeepAspectRatio);
 
     moved = false;
 }
@@ -25,6 +27,14 @@ noteBookBase::~noteBookBase()
         delete path;
     }
     path_list.clear();
+}
+
+void noteBookBase::resizeEvent(QResizeEvent* e)
+{
+    QSize viewSize = this->size();
+    scene->setSceneRect(0, 0, viewSize.rwidth(), viewSize.rwidth()*pageAspectRatio);
+    fitInView(0, 0, viewSize.rwidth(), viewSize.rheight(), Qt::KeepAspectRatio);
+    QGraphicsView::resizeEvent(e);
 }
 
 void noteBookBase::mousePressEvent(QMouseEvent* e)

@@ -14,6 +14,7 @@ class noteBookWidget : public QWidget
     Q_OBJECT
 public:
     explicit noteBookWidget(QWidget *parent = nullptr);
+
 private:
     noteBookBase* notebook;
     QVBoxLayout* vl;

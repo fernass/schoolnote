@@ -4,6 +4,7 @@ noteBookWidget::noteBookWidget(QWidget *parent)
     : QWidget{parent}
 {
     vl = new QVBoxLayout(this);
+
     fitZoom = new QToolButton;
     fitZoom->setIcon(QIcon(":/icons/zoom-fit.png"));
     zoom = new QToolButton;
@@ -25,6 +26,7 @@ noteBookWidget::noteBookWidget(QWidget *parent)
 
     notebook = new noteBookBase;
     vl->addWidget(notebook);
+    vl->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     vl->addStretch();
 
 }

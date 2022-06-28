@@ -4,5 +4,6 @@
         <file>icons/zoom.png</file>
         <file>icons/zoom-fit.png</file>
         <file>icons/pan.png</file>
+        <file>pics/fcbayern.jpg</file>
     </qresource>
 </RCC>

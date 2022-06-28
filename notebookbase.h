@@ -14,6 +14,9 @@ public:
     ~noteBookBase();
     bool viewportEvent(QEvent *event) override;
 
+protected:
+    void resizeEvent(QResizeEvent*) override;
+
 public slots:
     void mousePressEvent(QMouseEvent* e) override;
     void mouseReleaseEvent(QMouseEvent* e) override;
@@ -32,9 +35,16 @@ private:
     QPointF lastPos;
     QPointF currentPos;
     QPointF clickPos;
-    const float tolerance = 1E-3;
-    const float zoomFactor = 1.5;
+    qreal currentZoomFactor;
     qreal totalScaleFactor = 1;
+
+// constants
+    const float tolerance = 1E-3;
+    const float zoomFactor = 1.2;
+    const uint16_t pageWidth = 1024; // equivalent to 210mm on an A4
+    const uint16_t pageHeight = 1448; // equivalent to 297mm on an A4
+    const float pageAspectRatio = 1.414285714285714; // equivalent to 297/210 of an A4
+
 
     QList<QPointF> getControlPoints(float x0, float y0, float x1, float y1, float x2, float y2, float t);
 };
